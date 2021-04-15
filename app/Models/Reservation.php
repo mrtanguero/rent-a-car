@@ -11,7 +11,7 @@ class Reservation extends Model
 
     public function extras()
     {
-        return $this->belongsToMany(Extra::class);
+        return $this->belongsToMany(Extra::class)->withTimestamps();
     }
 
     public function car()

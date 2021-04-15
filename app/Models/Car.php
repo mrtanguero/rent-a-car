@@ -11,7 +11,7 @@ class Car extends Model
 
     public function car_class()
     {
-        return $this->hasOne(CarClass::class);
+        return $this->belongsTo(CarClass::class);
     }
 
     public function reservations()
