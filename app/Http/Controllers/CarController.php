@@ -39,10 +39,28 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        // Snimamo prvo sve ostalo
 
-        // A onda dodajemo sliku, jer sad imamo id Automobila
-        dd($request->file('car_img')->getClientOriginalExtension());
+        $photo_url = $request->file('car_img')->store('car-images');
+
+        Car::create([
+            "car_title" => $request->name,
+            "plate_number" => $request->plate_number,
+            "production_year" => $request->year,
+            "car_class_id" => (int)($request->car_class),
+            "number_of_seats" => (int)($request->seats_number),
+            "price_per_day" => (int)($request->price_per_day),
+            "photo_url" => $photo_url,
+            "additional_notes" => $request->notes
+        ]);
+
+        // AKO ŽELIMO DA DAMO ID AUTA KAO IME FAJLA
+        // $img = $request->file('car_img');
+        // $path = $img->storeAs(
+        //     'car-images',
+        //     $car->id . '.' . $img->getClientOriginalExtension()
+        // );
+        // $car->photo_url = $img;
+        // $car->save();
     }
 
     /**
