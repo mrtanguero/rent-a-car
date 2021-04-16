@@ -9,6 +9,8 @@ class Reservation extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function extras()
     {
         return $this->belongsToMany(Extra::class)->withTimestamps();

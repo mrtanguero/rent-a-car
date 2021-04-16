@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\CarClass;
 use App\Models\Country;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,8 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('cars.create');
+        $carClasses = CarClass::all();
+        return view('cars.create', ['carClasses' => $carClasses]);
     }
 
     /**
@@ -37,7 +39,10 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Snimamo prvo sve ostalo
+
+        // A onda dodajemo sliku, jer sad imamo id Automobila
+        dd($request->file('car_img')->getClientOriginalExtension());
     }
 
     /**

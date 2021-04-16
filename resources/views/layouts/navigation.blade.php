@@ -108,7 +108,7 @@
 </div>
 </nav> --}}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
             <img class="d-inline-block me-2" src="/img/car-logo.png" alt="logo">

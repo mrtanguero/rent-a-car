@@ -9,6 +9,8 @@ class Car extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function car_class()
     {
         return $this->belongsTo(CarClass::class);

@@ -9,6 +9,8 @@ class Extra extends Model
 {
     use HasFactory;
 
+    protected $fillable = ["name"];
+
     public function reservations()
     {
         return $this->belongsToMany(Reservation::class)->withTimestamps();
