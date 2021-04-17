@@ -26,12 +26,12 @@ class Reservation extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function pickupLocation()
+    public function pickup_location()
     {
         return $this->belongsTo(Location::class, 'pickup_location_id');
     }
 
-    public function returnLocation()
+    public function return_location()
     {
         return $this->belongsTo(Location::class, 'return_location_id');
     }

@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Reservation;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +18,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return view(
+        'home',
+        ['reservations' => Reservation::with(['car', 'client'])->get()]
+    );
 })->middleware(['auth'])->name('home');
 
 Route::resource('cars', CarController::class)->middleware(['auth']);
 Route::resource('clients', ClientController::class)->middleware(['auth']);
+Route::resource('reservations', ReservationController::class)->middleware(['auth']);
 
 require __DIR__ . '/auth.php';
