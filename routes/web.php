@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('home');
 })->middleware(['auth'])->name('home');
 
-Route::resource('cars', CarController::class);
-Route::resource('clients', ClientController::class);
+Route::resource('cars', CarController::class)->middleware(['auth']);
+Route::resource('clients', ClientController::class)->middleware(['auth']);
 
 require __DIR__ . '/auth.php';

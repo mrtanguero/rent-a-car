@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\CarClass;
-use App\Models\Country;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -16,7 +15,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        $cars = Car::all();
+        $cars = Car::with('car_class')->get();
         return view('cars.index', ['cars' => $cars]);
     }
 
@@ -61,6 +60,7 @@ class CarController extends Controller
         // );
         // $car->photo_url = $img;
         // $car->save();
+        return redirect('cars')->with('status', 'Automobil uspješno kreiran!');
     }
 
     /**

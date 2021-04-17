@@ -20,4 +20,16 @@ class Client extends Model
     {
         return $this->hasMany(Reservation::class);
     }
+
+    public function getFirstReservationAttribute()
+    {
+        $first_res_date = $this->reservations()->orderBy('created_at')->first();
+        return $first_res_date ? $first_res_date->created_at : 'N/A';
+    }
+
+    public function getLastReservationAttribute()
+    {
+        $first_res_date = $this->reservations()->orderByDesc('created_at')->first();
+        return $first_res_date ? $first_res_date->created_at : 'N/A';
+    }
 }

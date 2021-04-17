@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Country;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -14,7 +15,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::all();
+        $clients = Client::with('country')->get();
         return view('clients.index', ['clients' => $clients]);
     }
 
@@ -25,7 +26,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        $countries = Country::all();
+        return view('clients.create', ['countries' => $countries]);
     }
 
     /**
@@ -36,7 +38,16 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Client::create([
+            "name" => $request->name,
+            "country_id" => (int)($request->country_id),
+            "id_document_number" => $request->id_document_number,
+            "email" => $request->email,
+            "phone" => $request->phone,
+            "additional_notes" => $request->notes
+        ]);
+
+        return redirect('clients')->with('status', 'Klijent uspješno kreiran');
     }
 
     /**
