@@ -35,4 +35,9 @@ class Reservation extends Model
     {
         return $this->belongsTo(Location::class, 'return_location_id');
     }
+
+    public function getPriceAttribute()
+    {
+        return ($this->car->price_per_day) * ((int)(date_diff(date_create($this->date_to), date_create($this->date_from))->format('%a')) + 1);
+    }
 }

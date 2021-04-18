@@ -15,32 +15,35 @@
                         {{ __('Create new') }}
                     </a>
                 </div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Od</th>
-                            <th>Do</th>
-                            <th>Klijent</th>
-                            <th>Automobil</th>
-                            <th>Lokacija preuzimanja</th>
-                            <th>Lokacija vraćanja</th>
-                            {{-- <th>Dodatne informacije</th> --}}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($reservations as $reservation)
-                        <tr>
-                            <td>{{ $reservation->date_from }}</td>
-                            <td>{{ $reservation->date_to }}</td>
-                            <td>{{ $reservation->client->name }}</td>
-                            <td>{{ $reservation->car->car_title }}</td>
-                            <td>{{ $reservation->pickup_location->name }}</td>
-                            <td>{{ $reservation->return_location->name }}</td>
-                            {{-- <td>{{ $client->additional_notes }}</td> --}}
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div class="table-responsive-md">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Od</th>
+                                <th>Do</th>
+                                <th>Klijent</th>
+                                <th>Automobil</th>
+                                <th>Lokacija preuzimanja</th>
+                                <th>Lokacija vraćanja</th>
+                                <th>Cijena</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($reservations as $reservation)
+                            <tr>
+                                <td>{{ date("d.m.Y.", strtotime($reservation->date_from)) }}</td>
+                                <td>{{ date("d.m.Y.", strtotime($reservation->date_to)) }}</td>
+                                <td>{{ $reservation->client->name }}</td>
+                                <td>{{ $reservation->car->car_title }}</td>
+                                <td>{{ $reservation->pickup_location->name }}</td>
+                                <td>{{ $reservation->return_location->name }}</td>
+                                <td>{{ $reservation->price }}€</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

@@ -24,8 +24,21 @@ Route::get('/', function () {
     );
 })->middleware(['auth'])->name('home');
 
-Route::resource('cars', CarController::class)->middleware(['auth']);
-Route::resource('clients', ClientController::class)->middleware(['auth']);
-Route::resource('reservations', ReservationController::class)->middleware(['auth']);
+Route::resource(
+    'cars',
+    CarController::class
+)->middleware(['auth']);
+
+Route::resource(
+    'clients',
+    ClientController::class
+)->middleware(['auth']);
+
+Route::resource(
+    'reservations',
+    ReservationController::class
+)->middleware(
+    ['auth']
+);
 
 require __DIR__ . '/auth.php';

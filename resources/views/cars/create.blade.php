@@ -5,14 +5,25 @@
         <form action="{{ route('cars.store') }}" method="POST" class="mx-auto w-75" enctype="multipart/form-data">
           @csrf
 
+          @if ($errors->any())
+          <div class="alert alert-danger">
+            <ul>
+              @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+          @endif
+
           <label for="name" class="form-label">Naziv automobila</label>
-          <input type="text" name="name" id="name" class="form-control mb-2">
+          <input type="text" name="name" id="name" class="form-control mb-2" value={{ old('name') }}>
 
           <label for="plate-number" class="form-label">Registarski broj</label>
-          <input type="text" name="plate_number" id="plate-number" class="form-control mb-2">
+          <input type="text" name="plate_number" id="plate-number" class="form-control mb-2"
+            value={{ old('plate_number') }}>
 
           <label for="year" class="form-label">Godina proizvodnje</label>
-          <input type="number" name="year" id="year" class="form-control mb-2">
+          <input type="number" name="year" id="year" class="form-control mb-2" value={{ old('year') }}>
 
           <label for="car-class" class="form-label">Tip automobila</label>
           <select name="car_class" id="car-class" class="form-select mb-2">

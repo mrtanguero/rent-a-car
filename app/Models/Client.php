@@ -29,7 +29,7 @@ class Client extends Model
 
     public function getLastReservationAttribute()
     {
-        $first_res_date = $this->reservations()->orderByDesc('created_at')->first();
-        return $first_res_date ? $first_res_date->created_at : 'N/A';
+        $last_res_date = $this->reservations()->orderByDesc('created_at')->first();
+        return $last_res_date ? $last_res_date->created_at : 'N/A';
     }
 }

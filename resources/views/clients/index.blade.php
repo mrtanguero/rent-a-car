@@ -15,34 +15,42 @@
             {{ __('Create new') }}
           </a>
         </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Ime i prezime</th>
-              <th>Država</th>
-              <th>Broj pasoša / lične</th>
-              <th>Email</th>
-              <th>Telefon</th>
-              <th>Prva rezervacija</th>
-              <th>Poslednja rezervacija</th>
-              {{-- <th>Dodatne informacije</th> --}}
-            </tr>
-          </thead>
-          <tbody>
-            @foreach ($clients as $client)
-            <tr>
-              <td>{{ $client->name }}</td>
-              <td>{{ $client->country->name }}</td>
-              <td>{{ $client->id_document_number }}</td>
-              <td>{{ $client->email }}</td>
-              <td>{{ $client->phone }}</td>
-              <td>{{ $client->first_reservation }}</td>
-              <td>{{ $client->last_reservation }}</td>
-              {{-- <td>{{ $client->additional_notes }}</td> --}}
-            </tr>
-            @endforeach
-          </tbody>
-        </table>
+        <div class="table-responsive-lg">
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Ime i prezime</th>
+                <th>Država</th>
+                <th>Broj pasoša / lične</th>
+                <th>Email</th>
+                <th>Telefon</th>
+                <th>Prva rezervacija</th>
+                <th>Poslednja rezervacija</th>
+                {{-- <th>Dodatne informacije</th> --}}
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($clients as $client)
+              <tr>
+                <td>{{ $client->name }}</td>
+                <td>{{ $client->country->name }}</td>
+                <td>{{ $client->id_document_number }}</td>
+                <td>{{ $client->email }}</td>
+                <td>{{ $client->phone }}</td>
+                {{-- <td>{{ $client->first_reservation->format('m.d.Y') }}</td> --}}
+                <td>
+                  {{ $client->first_reservation === 'N/A' ? 'N/A' : date("d.m.Y.", strtotime($client->first_reservation)) }}
+                </td>
+                <td>
+                  {{ $client->last_reservation === 'N/A' ? 'N/A' : date("d.m.Y.", strtotime($client->last_reservation)) }}
+                </td>
+                {{-- <td>{{ $client->additional_notes }}</td> --}}
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
