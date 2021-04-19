@@ -47,7 +47,14 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        $request->validate([
+            'client_id' => 'required|numeric',
+            'car_id' => 'required|numeric',
+            'date_from' => 'required|date',
+            'date_to' => 'required|date',
+            'pickup_location_id' => 'required|numeric',
+            'return_location_id' => 'required|numeric'
+        ]);
         $reservation = Reservation::create([
             "client_id" => $request->client_id,
             "car_id" => $request->car_id,

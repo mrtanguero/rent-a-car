@@ -38,11 +38,11 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-
-        $validated = $request->validate([
+        $current_year = date("Y");
+        $request->validate([
             'name' => 'required|min:4|max:30',
             'plate_number' => 'required|min:6|max:15',
-            'year' => 'required|between:1950,2020|numeric',
+            'year' => "required|numeric|between:1950,$current_year",
             'car_class' => 'required|numeric',
             'seats_number' => 'required|numeric',
             'price_per_day' => 'required|numeric',
@@ -52,14 +52,14 @@ class CarController extends Controller
         $photo_url = $request->file('car_img')->store('car-images');
 
         Car::create([
-            "car_title" => $validated['name'],
-            "plate_number" => $validated['plate_number'],
-            "production_year" => $validated['year'],
-            "car_class_id" => (int)($validated['car_class']),
-            "number_of_seats" => (int)($validated['seats_number']),
-            "price_per_day" => (int)($validated['price_per_day']),
+            "car_title" => $request->name,
+            "plate_number" => $request->plate_number,
+            "production_year" => $request->year,
+            "car_class_id" => (int)($request->car_class),
+            "number_of_seats" => (int)($request->seats_number),
+            "price_per_day" => (int)($request->price_per_day),
             "photo_url" => $photo_url,
-            "additional_notes" => $validated['additional_notes'] ?? null
+            "additional_notes" => $request->additional_notes ?? null
         ]);
 
         return redirect('cars')->with('status', 'Automobil uspješno kreiran!');
