@@ -116,17 +116,32 @@ class CarController extends Controller
 
     public function select(Request $request)
     {
+        if (strtotime($request->date_to) < strtotime($request->date_from)) {
+            session(['date_error' => [
+                'date_from' => $request->date_from,
+                'date_to' => $request->date_to,
+                'client_id' => $request->client_id,
+                'pickup_location_id' => $request->pickup_location_id,
+                'return_location_id' => $request->return_location_id,
+                'car_class_id' => $request->car_class_id
+            ]]);
+            return back()->with(
+                'error',
+                'Datum kraja rezervacije mora biti poslije datuma početka iste!'
+            );
+        }
+
         $request->validate([
             'client_id' => 'required|numeric',
-            // 'car_id' => 'required|numeric',
             'date_from' => 'required|date',
             'date_to' => 'required|date',
             'pickup_location_id' => 'required|numeric',
             'return_location_id' => 'required|numeric'
         ]);
+
+
         $reservation = Reservation::make([
             "client_id" => $request->client_id,
-            // "car_id" => $request->car_id,
             "date_from" => $request->date_from,
             "date_to" => $request->date_to,
             "pickup_location_id" => $request->pickup_location_id,
@@ -140,15 +155,41 @@ class CarController extends Controller
             }
         }
 
+        $cars = Car::with(
+            ['reservations', 'car_class']
+        )->get()->reject(function ($car) use ($request) {
+            $flag = false;
+            if ($request->car_class_id && $car->car_class->id != $request->car_class_id) {
+                $flag = true;
+            }
+            foreach ($car->reservations as $reservation) {
+                if (
+                    (strtotime($reservation->date_from) <= strtotime($request->date_from)
+                        && strtotime($reservation->date_to) >= strtotime($request->date_from))
+                    || (strtotime($reservation->date_to) >= strtotime($request->date_to)
+                        && strtotime($reservation->date_from) <= strtotime($request->date_to))
+                    || (strtotime($reservation->date_from) >= strtotime($request->date_from)
+                        && strtotime($reservation->date_to) <= strtotime($request->date_to))
+                ) {
+                    $flag = true;
+                }
+            }
+            return $flag;
+        });
+
         $locations = Location::all();
         $client = Client::find($request->client_id);
-        // Ovo mora u onom drugom kontroleru
-        // $reservation->extras()->attach($extras);
-        // return redirect('/')->with('status', 'Rezervacija uspješno dodata');
 
         return view(
             'cars.select',
-            compact(['reservation', 'extras', 'locations', 'client'])
+            compact(['cars', 'reservation', 'extras', 'locations', 'client'])
         );
     }
 }
+
+// TODO: 
+// 4. show, edit i delete za cars
+// 5. nebitni ostali CRUDS
+// 6. Active navigation buttons
+// 7. Footer
+// 8. Default img za kola?

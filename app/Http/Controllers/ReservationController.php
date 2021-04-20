@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\CarClass;
 use App\Models\Client;
 use App\Models\Extra;
 use App\Models\Location;
@@ -30,12 +31,13 @@ class ReservationController extends Controller
     public function create()
     {
         $cars = Car::orderBy('car_title')->get();
+        $car_classes = CarClass::all();
         $clients = Client::orderBy('name')->get();
         $locations = Location::all();
         $extras = Extra::all();
         return view(
             'reservations.create',
-            compact(['cars', 'clients', 'extras', 'locations'])
+            compact(['cars', 'car_classes', 'clients', 'extras', 'locations'])
         );
     }
 
@@ -55,6 +57,7 @@ class ReservationController extends Controller
             'pickup_location_id' => 'required|numeric',
             'return_location_id' => 'required|numeric'
         ]);
+
         $reservation = Reservation::create([
             "client_id" => $request->client_id,
             "car_id" => $request->car_id,
@@ -64,13 +67,11 @@ class ReservationController extends Controller
             "return_location_id" => $request->return_location_id,
         ]);
 
-        $extras = [];
-        foreach (Extra::all() as $extra) {
-            if ($request->input("extra_" . $extra->id)) {
-                $extras[] = $extra->id;
-            }
+        $extras = session('extras');
+        if (count($extras)) {
+            $reservation->extras()->attach($extras);
         }
-        $reservation->extras()->attach($extras);
+        session(['extras' => null]);
         return redirect('/')->with('status', 'Rezervacija uspješno dodata');
     }
 
