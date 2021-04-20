@@ -20,9 +20,14 @@
                         {{ __('Cars') }}
                     </a>
                 </li>
-                <li class="nav-item me-auto">
+                <li class="nav-item">
                     <a class="nav-link" href="{{ route('clients.index') }}">
                         {{ __('Clients') }}
+                    </a>
+                </li>
+                <li class="nav-item me-auto">
+                    <a class="nav-link" href="{{ route('reservations.create') }}">
+                        {{ __('Napravi rezervaciju') }}
                     </a>
                 </li>
                 <li class="nav-item dropdown">

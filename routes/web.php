@@ -28,6 +28,7 @@ Route::resource(
     'cars',
     CarController::class
 )->middleware(['auth']);
+Route::post('cars/select', [CarController::class, 'select'])->name('cars.select');
 
 Route::resource(
     'clients',

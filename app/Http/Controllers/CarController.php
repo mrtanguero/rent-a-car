@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Car;
 use App\Models\CarClass;
+use App\Models\Client;
+use App\Models\Reservation;
+use App\Models\Extra;
+use App\Models\Location;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -108,5 +112,43 @@ class CarController extends Controller
     public function destroy(Car $car)
     {
         //
+    }
+
+    public function select(Request $request)
+    {
+        $request->validate([
+            'client_id' => 'required|numeric',
+            // 'car_id' => 'required|numeric',
+            'date_from' => 'required|date',
+            'date_to' => 'required|date',
+            'pickup_location_id' => 'required|numeric',
+            'return_location_id' => 'required|numeric'
+        ]);
+        $reservation = Reservation::make([
+            "client_id" => $request->client_id,
+            // "car_id" => $request->car_id,
+            "date_from" => $request->date_from,
+            "date_to" => $request->date_to,
+            "pickup_location_id" => $request->pickup_location_id,
+            "return_location_id" => $request->return_location_id,
+        ]);
+
+        $extras = [];
+        foreach (Extra::all() as $extra) {
+            if ($request->input("extra_" . $extra->id)) {
+                $extras[] = $extra->id;
+            }
+        }
+
+        $locations = Location::all();
+        $client = Client::find($request->client_id);
+        // Ovo mora u onom drugom kontroleru
+        // $reservation->extras()->attach($extras);
+        // return redirect('/')->with('status', 'Rezervacija uspješno dodata');
+
+        return view(
+            'cars.select',
+            compact(['reservation', 'extras', 'locations', 'client'])
+        );
     }
 }
