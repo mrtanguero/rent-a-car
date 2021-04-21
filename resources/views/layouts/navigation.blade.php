@@ -11,22 +11,26 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav w-100 mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ route('home') }}">
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" aria-current="page"
+                        href="{{ route('home') }}">
                         {{ __('Home') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('cars.index') }}">
+                    <a class="nav-link {{ request()->routeIs(['cars.index', 'cars.create', 'cars.edit', 'cars.show']) ? 'active' : '' }}"
+                        href="{{ route('cars.index') }}">
                         {{ __('Cars') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('clients.index') }}">
+                    <a class="nav-link {{ request()->routeIs('clients*') ? 'active' : '' }}"
+                        href="{{ route('clients.index') }}">
                         {{ __('Clients') }}
                     </a>
                 </li>
                 <li class="nav-item me-auto">
-                    <a class="nav-link" href="{{ route('reservations.create') }}">
+                    <a class="nav-link {{ request()->routeIs(['reservations.create', 'cars.select']) ? 'active' : '' }}"
+                        href="{{ route('reservations.create') }}">
                         {{ __('Napravi rezervaciju') }}
                     </a>
                 </li>

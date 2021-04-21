@@ -35,7 +35,11 @@
                                 <td>{{ date("d.m.Y.", strtotime($reservation->date_from)) }}</td>
                                 <td>{{ date("d.m.Y.", strtotime($reservation->date_to)) }}</td>
                                 <td>{{ $reservation->client->name }}</td>
-                                <td>{{ $reservation->car->car_title }}</td>
+                                <td>
+                                    <a href="{{ route('cars.show', ['car'=> $reservation->car]) }}">
+                                        {{ $reservation->car->car_title }}
+                                    </a>
+                                </td>
                                 <td>{{ $reservation->pickup_location->name }}</td>
                                 <td>{{ $reservation->return_location->name }}</td>
                                 <td>{{ $reservation->price }}€</td>

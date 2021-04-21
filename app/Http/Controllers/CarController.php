@@ -220,7 +220,8 @@ class CarController extends Controller
 }
 
 // TODO: 
-// - Active navigation buttons
+// - Clients show, edit, delete
 // - nebitni ostali CRUDS
 // - Default img za kola?
 // - Provjeri brisanje za povezane modele!
+// - Paginacija
