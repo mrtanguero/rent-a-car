@@ -2,11 +2,24 @@
   <div class="container mt-4">
     <div class="card shadow-sm">
       <div class="card-body">
-        {{-- @dump($reservation, $extras, $cars) --}}
         @php
         session(['extras' => $extras]);
         @endphp
 
+        <div>
+          <h2 class="mb-3">Podaci koje ste unijeli:</h2>
+          <strong>Klijent: </strong>{{ $client->name }}
+          <br /><strong>Od: </strong>{{ date("d.m.Y.", strtotime($reservation->date_from)) }}
+          <br /><strong>Do: </strong>{{ date("d.m.Y.", strtotime($reservation->date_to)) }}
+          <br /><strong>Lokacija preuzimanja vozila:
+          </strong>{{ $locations->find($reservation->pickup_location_id)->name }}
+          <br /><strong>Lokacija vraćanja vozila:
+          </strong>{{ $locations->find($reservation->return_location_id)->name }}
+          @if ($car_class)
+          <br /><strong>Odabrana klasa automobila: </strong>{{ $car_class }}
+          @endif
+          </p>
+        </div>
         {{-- Cars (filtered) --}}
         <form id="select-car" action="{{ route('reservations.store') }}" method="POST">
           <div class="row g-3 mt-1">
@@ -21,12 +34,14 @@
               value={{ old('pickup_location_id', $reservation->return_location_id) }}>
             <input id="car-id" type="hidden" name="car_id" value="{{ old('car_id') }}">
 
-            <h2>Dostupna vozila zadate klase za dati period:</h2>
+            <h2>Dostupna vozila @if ($car_class) {{ 'zadate klase' }} @endif za dati period:</h2>
             @foreach ($cars as $car)
             <div class="col-sm-6 col-md-4 col-lg-3">
               <div class="card shadow-sm">
+                @unless ($car_class)
                 <span
                   class="badge bg-success position-absolute top-2 left-2 shadow-sm">{{ $car->car_class->name }}</span>
+                @endunless
                 <img src="{{ Storage::url($car->photo_url) }}" class="card-img-top"
                   style="max-height: 8rem; object-fit: cover" alt="{{ $car->car_title }} image">
                 <div class="card-body">
@@ -45,6 +60,12 @@
                       <tr>
                         <th>Cijena/danu:</th>
                         <td>{{ $car->price_per_day }}€</td>
+                      </tr>
+                      <tr>
+                        <th>Ukupno:</th>
+                        <td>
+                          {{ $car->price_per_day * ((int)(date_diff(date_create($reservation->date_from), date_create($reservation->date_to))->format('%a')) + 1) }}€
+                        </td>
                       </tr>
                     </tbody>
                   </table>

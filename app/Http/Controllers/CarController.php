@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use App\Models\Extra;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -50,7 +51,7 @@ class CarController extends Controller
             'car_class' => 'required|numeric',
             'seats_number' => 'required|numeric',
             'price_per_day' => 'required|numeric',
-            'additional_notes' => 'nullable|string'
+            'notes' => 'nullable|string'
         ]);
 
         $photo_url = $request->file('car_img')->store('car-images');
@@ -63,7 +64,7 @@ class CarController extends Controller
             "number_of_seats" => (int)($request->seats_number),
             "price_per_day" => (int)($request->price_per_day),
             "photo_url" => $photo_url,
-            "additional_notes" => $request->additional_notes ?? null
+            "additional_notes" => $request->notes ?? null
         ]);
 
         return redirect('cars')->with('status', 'Automobil uspješno kreiran!');
@@ -77,7 +78,7 @@ class CarController extends Controller
      */
     public function show(Car $car)
     {
-        //
+        return view('cars.show', compact(['car']));
     }
 
     /**
@@ -88,7 +89,8 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
-        //
+        $car_classes = CarClass::all();
+        return view('cars.edit', compact(['car', 'car_classes']));
     }
 
     /**
@@ -100,7 +102,34 @@ class CarController extends Controller
      */
     public function update(Request $request, Car $car)
     {
-        //
+        $current_year = date("Y");
+        $request->validate([
+            'name' => 'required|min:4|max:30',
+            'plate_number' => 'required|min:6|max:15',
+            'year' => "required|numeric|between:1950,$current_year",
+            'car_class' => 'required|numeric',
+            'seats_number' => 'required|numeric',
+            'price_per_day' => 'required|numeric',
+            'notes' => 'nullable|string'
+        ]);
+
+        if ($request->file('car_img')) {
+            $photo_url = $request->file('car_img')->store('car-images');
+            Storage::delete($car->photo_url);
+            $car->photo_url = $photo_url;
+        }
+
+        $car->car_title = $request->name;
+        $car->plate_number = $request->plate_number;
+        $car->production_year = $request->year;
+        $car->car_class_id = $request->car_class;
+        $car->number_of_seats = $request->seats_number;
+        $car->price_per_day = $request->price_per_day;
+        $car->additional_notes = $request->notes ?? null;
+
+        $car->save();
+
+        return redirect(route('cars.show', ['car' => $car]))->with('status', 'Izmjene uspješno sačuvane!');
     }
 
     /**
@@ -111,7 +140,9 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        //
+        $car->delete();
+
+        return redirect('cars')->with('status', 'Automobil je uspješno izbrisan');
     }
 
     public function select(Request $request)
@@ -179,17 +210,17 @@ class CarController extends Controller
 
         $locations = Location::all();
         $client = Client::find($request->client_id);
+        $car_class = $request->car_class_id ? CarClass::find($request->car_class_id)->name : '';
 
         return view(
             'cars.select',
-            compact(['cars', 'reservation', 'extras', 'locations', 'client'])
+            compact(['cars', 'reservation', 'extras', 'locations', 'client', 'car_class'])
         );
     }
 }
 
 // TODO: 
-// 4. show, edit i delete za cars
-// 5. nebitni ostali CRUDS
-// 6. Active navigation buttons
-// 7. Footer
-// 8. Default img za kola?
+// - Active navigation buttons
+// - nebitni ostali CRUDS
+// - Default img za kola?
+// - Provjeri brisanje za povezane modele!

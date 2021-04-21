@@ -8,7 +8,7 @@
 
           <label for="name" class="form-label">Naziv automobila</label>
           <input type="text" name="name" id="name"
-            class="form-control mb-2 {{ $errors->get('name') ? 'is-invalid' : '' }}" value={{ old('name') }}>
+            class="form-control mb-2 {{ $errors->get('name') ? 'is-invalid' : '' }}" value="{{ old('name') }}">
           @error('name')
           <div class="alert alert-danger">{{ $message }}</div>
           @enderror
@@ -16,14 +16,14 @@
           <label for="plate-number" class="form-label">Registarski broj</label>
           <input type="text" name="plate_number" id="plate-number"
             class="form-control mb-2 {{ $errors->get('plate_number') ? 'is-invalid' : '' }}"
-            value={{ old('plate_number') }}>
+            value="{{ old('plate_number') }}">
           @error('plate_number')
           <div class="alert alert-danger">{{ $message }}</div>
           @enderror
 
           <label for="year" class="form-label">Godina proizvodnje</label>
           <input type="number" name="year" id="year"
-            class="form-control mb-2 {{ $errors->get('year') ? 'is-invalid' : '' }}" value={{ old('year') }}>
+            class="form-control mb-2 {{ $errors->get('year') ? 'is-invalid' : '' }}" value="{{ old('year') }}">
           @error('year')
           <div class="alert alert-danger">{{ $message }}</div>
           @enderror
