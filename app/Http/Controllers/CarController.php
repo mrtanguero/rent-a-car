@@ -115,7 +115,9 @@ class CarController extends Controller
 
         if ($request->file('car_img')) {
             $photo_url = $request->file('car_img')->store('car-images');
-            Storage::delete($car->photo_url);
+            if ($car->photo_url !== 'car-images/default.jpg') {
+                Storage::delete($car->photo_url);
+            }
             $car->photo_url = $photo_url;
         }
 
@@ -140,7 +142,9 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
-        Storage::delete($car->photo_url);
+        if ($car->photo_url !== 'car-images/default.jpg') {
+            Storage::delete($car->photo_url);
+        }
         $car->delete();
 
         return redirect('cars')->with('status', 'Automobil je uspješno izbrisan');

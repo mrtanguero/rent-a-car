@@ -21,7 +21,7 @@ class CreateCarsTable extends Migration
             $table->foreignId('car_class_id')->constrained('car_classes');
             $table->integer('number_of_seats');
             $table->integer('price_per_day');
-            $table->string('photo_url')->nullable();
+            $table->string('photo_url')->default('car-images/default.jpg');
             $table->text('additional_notes')->nullable();
             $table->timestamps();
         });

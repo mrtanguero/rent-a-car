@@ -31,7 +31,7 @@ class CarFactory extends Factory
             'car_class_id' => CarClass::all()->random()->id,
             'number_of_seats' => $this->faker->numberBetween(2, 5),
             'price_per_day' => $this->faker->numberBetween(30, 100),
-            'photo_url' => Storage::url('car-images/default.jpg'),
+            // 'photo_url' => Storage::url('car-images/default.jpg'),
             'additional_notes' => $this->faker->sentence(8)
         ];
     }

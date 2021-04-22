@@ -63,7 +63,6 @@
 {{-- 
 TODO:
 - search filter za klijente
-- Default img za kola? 
 - Provjeri brisanje za povezane modele!
 - Rekreiraj checkboxes 
 --}}
