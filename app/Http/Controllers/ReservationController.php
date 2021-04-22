@@ -20,7 +20,7 @@ class ReservationController extends Controller
     public function index()
     {
         //? NOT USED
-        $reservations = Reservation::with(['car', 'client'])->get();
+        $reservations = Reservation::with(['car', 'client'])->paginate(15);
         return view('reservations.index', ['reservations' => $reservations]);
     }
 

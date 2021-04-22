@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             LocationSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
-        \App\Models\Client::factory(20)->create();
-        \App\Models\Car::factory(20)->create();
+        // \App\Models\Client::factory(20)->create();
+        // \App\Models\Car::factory(20)->create();
+        // \App\Models\Reservation::factory(50)->create();
     }
 }

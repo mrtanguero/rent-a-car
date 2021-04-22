@@ -140,6 +140,7 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
+        Storage::delete($car->photo_url);
         $car->delete();
 
         return redirect('cars')->with('status', 'Automobil je uspješno izbrisan');

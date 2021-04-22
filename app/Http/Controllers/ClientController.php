@@ -17,7 +17,7 @@ class ClientController extends Controller
      */
     public function index()
     {
-        $clients = Client::with('country')->get();
+        $clients = Client::with('country')->paginate(10);
         return view('clients.index', ['clients' => $clients]);
     }
 

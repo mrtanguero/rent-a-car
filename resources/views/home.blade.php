@@ -51,6 +51,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    <div class="d-flex justify-content-center">
+                        {{ $reservations->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,10 +62,8 @@
 
 {{-- 
 TODO:
-- seeders za šifarnike
 - search filter za klijente
 - Default img za kola? 
 - Provjeri brisanje za povezane modele!
-- Paginacija
 - Rekreiraj checkboxes 
 --}}

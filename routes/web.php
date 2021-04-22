@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view(
         'home',
-        ['reservations' => Reservation::with(['car', 'client'])->get()]
+        ['reservations' => Reservation::with(['car', 'client'])->paginate(10)]
     );
 })->middleware(['auth'])->name('home');
 
