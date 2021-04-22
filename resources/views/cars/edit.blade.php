@@ -65,6 +65,12 @@
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
 
+              <label for="notes">Dodatne informacije</label>
+              <textarea class="form-control mb-4" style="height: 100px" name="notes"
+                id="notes">{{ old('notes', $car->additional_notes) }}</textarea>
+              @error('notes')
+              <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
 
             </div>
             <div class="col col-sm-6">
@@ -75,12 +81,6 @@
                 <label for="car-img" class="form-label">Odaberite novu fotografiju (opciono)</label>
                 <input class="form-control mb-2" type="file" name="car_img" id="car-img">
               </div>
-              <label for="notes">Dodatne informacije</label>
-              <textarea class="form-control mb-4" style="height: 100px" name="notes"
-                id="notes">{{ old('notes', $car->additional_notes) }}</textarea>
-              @error('notes')
-              <div class="alert alert-danger">{{ $message }}</div>
-              @enderror
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-primary w-75">Sačuvaj</button>

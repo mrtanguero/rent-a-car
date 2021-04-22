@@ -15,6 +15,12 @@
           </strong>{{ $locations->find($reservation->pickup_location_id)->name }}
           <br /><strong>Lokacija vraćanja vozila:
           </strong>{{ $locations->find($reservation->return_location_id)->name }}
+          @if ($extras)
+          <br /><strong>Dodatna oprema:</strong>
+          @foreach ($extras as $extra)
+          <br />- {{ $extra->name }}
+          @endforeach
+          @endif
           @if ($car_class)
           <br /><strong>Odabrana klasa automobila: </strong>{{ $car_class }}
           @endif

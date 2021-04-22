@@ -10,9 +10,9 @@
         @endif
         {{-- Content goes here --}}
         <div class="header d-flex align-items-center justify-between">
-          <h1>{{ __('Cars') }}</h1>
+          <h1>Klijenti</h1>
           <a href="{{ route('cars.create') }}" class="btn btn-primary">
-            {{ __('Create new') }}
+            Unesi novo vozilo
           </a>
         </div>
         {{-- <div class="container"> --}}

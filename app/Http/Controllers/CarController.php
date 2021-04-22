@@ -142,6 +142,11 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
+
+        if ($car->reservations->count()) {
+            return redirect(route('cars.show', ['car' => $car]))->with('warning', 'Vozilo je vezano za aktivne rezervacije, morate prvo obrisati rezervacije da biste obrisali vozilo!');
+        }
+
         if ($car->photo_url !== 'car-images/default.jpg') {
             Storage::delete($car->photo_url);
         }
@@ -216,6 +221,7 @@ class CarController extends Controller
         $locations = Location::all();
         $client = Client::find($request->client_id);
         $car_class = $request->car_class_id ? CarClass::find($request->car_class_id)->name : '';
+        $extras = Extra::find($extras);
 
         return view(
             'cars.select',

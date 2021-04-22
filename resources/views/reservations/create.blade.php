@@ -105,11 +105,10 @@
               </select>
             </div>
           </div>
-
           @foreach ($extras as $extra)
           <div class="form-check mb-2">
             <input class="form-check-input" name="extra_{{ $extra->id }}" type="checkbox" value="checked"
-              id="check-{{ $extra->id }}">
+              id="check-{{ $extra->id }}" {{ old('extra_' . $extra->id) ? 'checked' : '' }}>
             <label class="form-check-label" for="check-{{ $extra->id }}">
               {{ $extra->name }}
             </label>

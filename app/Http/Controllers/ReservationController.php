@@ -69,7 +69,7 @@ class ReservationController extends Controller
         ]);
 
         $extras = session('extras');
-        if (count($extras)) {
+        if ($extras) {
             $reservation->extras()->attach($extras);
         }
         session(['extras' => null]);
@@ -118,6 +118,7 @@ class ReservationController extends Controller
      */
     public function destroy(Reservation $reservation)
     {
-        //
+        $reservation->delete();
+        return back()->with('status', 'Rezervacija je uspješno izbrisana!');
     }
 }

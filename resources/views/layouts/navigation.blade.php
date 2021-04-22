@@ -13,25 +13,25 @@
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" aria-current="page"
                         href="{{ route('home') }}">
-                        {{ __('Home') }}
+                        Početna
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs(['cars.index', 'cars.create', 'cars.edit', 'cars.show']) ? 'active' : '' }}"
                         href="{{ route('cars.index') }}">
-                        {{ __('Cars') }}
+                        Vozila
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('clients*') ? 'active' : '' }}"
                         href="{{ route('clients.index') }}">
-                        {{ __('Clients') }}
+                        Klijenti
                     </a>
                 </li>
                 <li class="nav-item me-auto">
                     <a class="nav-link {{ request()->routeIs(['reservations.create', 'cars.select']) ? 'active' : '' }}"
                         href="{{ route('reservations.create') }}">
-                        {{ __('Napravi rezervaciju') }}
+                        Napravi rezervaciju
                     </a>
                 </li>
                 <li class="nav-item dropdown">

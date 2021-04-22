@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Country;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Constraint\Count;
 
 class ClientController extends Controller
@@ -15,9 +16,17 @@ class ClientController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clients = Client::with('country')->paginate(10);
+        $search = $request->query('search', '');
+
+        $clients = Client::with('country')
+            ->where('name', 'like', "%$search%")
+            ->orWhere('email', 'like', "%$search%")
+            ->orWhere('phone', 'like', "%$search%")
+            ->orWhere('id_document_number', 'like', "%$search%")
+            ->paginate(10);
+
         return view('clients.index', ['clients' => $clients]);
     }
 
@@ -123,6 +132,10 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
+        if ($client->reservations) {
+            return redirect(route('clients.show', ['client' => $client]))->with('warning', 'Klijent je vezan aktivne rezervacije, morate prvo obrisati rezervacije da biste obrisali vozilo!');
+        }
+
         $client->delete();
         return redirect(route('clients.index'))->with('status', 'Klijent uspješno izbrisan!');
     }

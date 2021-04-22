@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('country_id')->constrained('countries');
-            $table->string('id_document_number');
+            $table->string('id_document_number')->unique();
             $table->string('email');
             $table->string('phone');
             $table->text('additional_notes')->nullable();
