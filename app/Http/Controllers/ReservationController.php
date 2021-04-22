@@ -19,6 +19,7 @@ class ReservationController extends Controller
      */
     public function index()
     {
+        //? NOT USED
         $reservations = Reservation::with(['car', 'client'])->get();
         return view('reservations.index', ['reservations' => $reservations]);
     }

@@ -34,7 +34,11 @@
                             <tr>
                                 <td>{{ date("d.m.Y.", strtotime($reservation->date_from)) }}</td>
                                 <td>{{ date("d.m.Y.", strtotime($reservation->date_to)) }}</td>
-                                <td>{{ $reservation->client->name }}</td>
+                                <td>
+                                    <a href="{{ route('clients.show', ['client'=> $reservation->client]) }}">
+                                        {{ $reservation->client->name }}
+                                    </a>
+                                </td>
                                 <td>
                                     <a href="{{ route('cars.show', ['car'=> $reservation->car]) }}">
                                         {{ $reservation->car->car_title }}
@@ -52,3 +56,13 @@
         </div>
     </div>
 </x-app-layout>
+
+{{-- 
+TODO:
+- seeders za šifarnike
+- search filter za klijente
+- Default img za kola? 
+- Provjeri brisanje za povezane modele!
+- Paginacija
+- Rekreiraj checkboxes 
+--}}

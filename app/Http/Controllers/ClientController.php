@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Country;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
+use PHPUnit\Framework\Constraint\Count;
 
 class ClientController extends Controller
 {
@@ -38,6 +40,15 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|between:4,50',
+            'country_id' => 'required|numeric',
+            'id_document_number' => 'required|string|max:50',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'additional_notes' => 'nullable|string'
+        ]);
+
         Client::create([
             "name" => $request->name,
             "country_id" => (int)($request->country_id),
@@ -58,7 +69,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        //
+        return view('clients.show', ['client' => $client]);
     }
 
     /**
@@ -69,7 +80,11 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        $countries = Country::all();
+        return view(
+            'clients.edit',
+            ['client' => $client, 'countries' => $countries]
+        );
     }
 
     /**
@@ -81,7 +96,23 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|between:4,50',
+            'country_id' => 'required|numeric',
+            'id_document_number' => 'required|string|max:50',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'notes' => 'nullable|string'
+        ]);
+        $client->name = $request->name;
+        $client->country_id = $request->country_id;
+        $client->id_document_number = $request->id_document_number;
+        $client->email = $request->email;
+        $client->phone = $request->phone;
+        $client->additional_notes = $request->notes;
+
+        $client->save();
+        return redirect(route('clients.show', ['client' => $client]))->with('status', "Izmjene uspješno sačuvane!");
     }
 
     /**
@@ -92,6 +123,7 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
+        return redirect(route('clients.index'))->with('status', 'Klijent uspješno izbrisan!');
     }
 }
