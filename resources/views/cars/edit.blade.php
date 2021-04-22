@@ -5,7 +5,7 @@
         <div class="container">
           <form action="{{ route('cars.update', ['car'=>$car]) }}" method="POST" class="row"
             enctype="multipart/form-data">
-            <h2 class="mt-2 mb-5 text-center">Izmijeni <strong>{{ $car->car_title }}</strong></h2>
+            <h2 class="mt-2 mb-5 text-center">Izmijeni <strong>{{ $car->name }}</strong></h2>
             @csrf
             @method('put')
 
@@ -14,7 +14,7 @@
               <label for="name" class="form-label">Naziv automobila</label>
               <input type="text" name="name" id="name"
                 class="form-control mb-2 {{ $errors->get('name') ? 'is-invalid' : '' }}"
-                value="{{ old('name', $car->car_title) }}">
+                value="{{ old('name', $car->name) }}">
               @error('name')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
@@ -69,7 +69,7 @@
             </div>
             <div class="col col-sm-6">
               <div>
-                <img src="{{ Storage::url($car->photo_url) }}" alt="{{ $car->car_title }} image" class="img-fluid mb-2">
+                <img src="{{ Storage::url($car->photo_url) }}" alt="{{ $car->name }} image" class="img-fluid mb-2">
               </div>
               <div>
                 <label for="car-img" class="form-label">Odaberite novu fotografiju (opciono)</label>

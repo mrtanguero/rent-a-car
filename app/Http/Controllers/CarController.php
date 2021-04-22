@@ -57,7 +57,7 @@ class CarController extends Controller
         $photo_url = $request->file('car_img')->store('car-images');
 
         Car::create([
-            "car_title" => $request->name,
+            "name" => $request->name,
             "plate_number" => $request->plate_number,
             "production_year" => $request->year,
             "car_class_id" => (int)($request->car_class),
@@ -119,7 +119,7 @@ class CarController extends Controller
             $car->photo_url = $photo_url;
         }
 
-        $car->car_title = $request->name;
+        $car->name = $request->name;
         $car->plate_number = $request->plate_number;
         $car->production_year = $request->year;
         $car->car_class_id = $request->car_class;

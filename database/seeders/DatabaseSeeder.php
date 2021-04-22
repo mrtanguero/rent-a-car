@@ -13,6 +13,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            CountrySeeder::class,
+            CarClassSeeder::class,
+            ExtraSeeder::class,
+            LocationSeeder::class
+        ]);
         // \App\Models\User::factory(10)->create();
+        \App\Models\Client::factory(20)->create();
+        \App\Models\Car::factory(20)->create();
     }
 }

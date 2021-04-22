@@ -41,7 +41,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('cars.show', ['car'=> $reservation->car]) }}">
-                                        {{ $reservation->car->car_title }}
+                                        {{ $reservation->car->name }}
                                     </a>
                                 </td>
                                 <td>{{ $reservation->pickup_location->name }}</td>

@@ -31,7 +31,7 @@ class ReservationController extends Controller
      */
     public function create()
     {
-        $cars = Car::orderBy('car_title')->get();
+        $cars = Car::orderBy('name')->get();
         $car_classes = CarClass::all();
         $clients = Client::orderBy('name')->get();
         $locations = Location::all();

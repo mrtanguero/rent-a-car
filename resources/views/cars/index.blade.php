@@ -22,9 +22,9 @@
             <div class="card shadow-sm">
               <span class="badge bg-success position-absolute top-2 left-2 shadow-sm">{{ $car->car_class->name }}</span>
               <img src="{{ Storage::url($car->photo_url) }}" class="card-img-top"
-                style="max-height: 8rem; object-fit: cover" alt="{{ $car->car_title }} image">
+                style="max-height: 8rem; object-fit: cover" alt="{{ $car->name }} image">
               <div class="card-body">
-                <h5 class="card-title">{{ $car->car_title }}</h5>
+                <h5 class="card-title">{{ $car->name }}</h5>
                 <h6 class="card-subtitle text-muted">{{ $car->plate_number }}</h6>
                 <table class=" table my-2">
                   <tbody>

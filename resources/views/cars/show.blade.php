@@ -3,7 +3,7 @@
     <div class="card shadow-sm">
       <div class="card-body">
         <div class="container">
-          <h2 class="text-center mt-3 mb-5">{{ $car->car_title }}</h2>
+          <h2 class="text-center mt-3 mb-5">{{ $car->name }}</h2>
           @if (session('status'))
           <div class="alert alert-success text-center">
             {{ session('status') }}
@@ -11,7 +11,7 @@
           @endif
           <div class="row">
             <div class="col col-md-5">
-              <img class="img-fluid" src="{{ Storage::url($car->photo_url) }}" alt="{{ $car->car_title . ' image' }}">
+              <img class="img-fluid" src="{{ Storage::url($car->photo_url) }}" alt="{{ $car->name . ' image' }}">
             </div>
             <div class="col col-md-7">
               <table class="table">

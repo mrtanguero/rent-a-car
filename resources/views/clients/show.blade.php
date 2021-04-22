@@ -93,7 +93,7 @@
               <td>
                 {{ date("d.m.Y.", strtotime($reservation->date_to)) }}
               </td>
-              <td>{{ $reservation->car->car_title }}</td>
+              <td>{{ $reservation->car->name }}</td>
               <td>{{ $reservation->pickup_location->name }}</td>
               <td>{{ $reservation->return_location->name }}</td>
               <td>{{ $reservation->price }}€ </td>
