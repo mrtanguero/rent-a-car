@@ -12,8 +12,6 @@
         <div class="header d-flex align-items-center">
           <h1 class="flex-grow-1">Klijenti</h1>
           <form action="{{ route('clients.index') }} " method="GET">
-            {{-- <input class="form-control" type="text" name="search" id="search" placeholder="Search..."
-              value="{{ request()->query('search') }}"> --}}
             <div class="input-group">
               <input type="text" class="form-control" placeholder="Search" name="search"
                 value="{{ request()->query('search') }}" aria-label="Recipient's username"

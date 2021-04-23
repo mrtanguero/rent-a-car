@@ -20,12 +20,20 @@ class ClientController extends Controller
     {
         $search = $request->query('search', '');
 
-        $clients = Client::with('country')
-            ->where('name', 'like', "%$search%")
-            ->orWhere('email', 'like', "%$search%")
-            ->orWhere('phone', 'like', "%$search%")
-            ->orWhere('id_document_number', 'like', "%$search%")
-            ->paginate(10);
+        if ($search) {
+            $clients = Client::with('country')
+                ->join('countries', 'clients.country_id', '=', 'countries.id')
+                ->where('clients.name', 'like', "%$search%")
+                ->orWhere('countries.name', 'like', "%$search%")
+                ->orWhere('email', 'like', "%$search%")
+                ->orWhere('phone', 'like', "%$search%")
+                ->orWhere('id_document_number', 'like', "%$search%")
+                ->select('clients.*')
+
+                ->paginate(10)->withQueryString();
+        } else {
+            $clients = Client::with('country')->paginate(10);
+        }
 
         return view('clients.index', ['clients' => $clients]);
     }
@@ -132,7 +140,7 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        if ($client->reservations) {
+        if ($client->reservations->count()) {
             return redirect(route('clients.show', ['client' => $client]))->with('warning', 'Klijent je vezan aktivne rezervacije, morate prvo obrisati rezervacije da biste obrisali vozilo!');
         }
 

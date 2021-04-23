@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Reservation;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,31 +17,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view(
-        'home',
-        ['reservations' => Reservation::with(['car', 'client'])
-            ->orderBy('date_from')
-            ->paginate(10)]
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/', [HomeController::class, 'home'])->name('home');
+
+    Route::resource(
+        'cars',
+        CarController::class
     );
-})->middleware(['auth'])->name('home');
+    Route::post(
+        'cars/select',
+        [CarController::class, 'select']
+    )->name('cars.select');
 
-Route::resource(
-    'cars',
-    CarController::class
-)->middleware(['auth']);
-Route::post('cars/select', [CarController::class, 'select'])->name('cars.select');
+    Route::resource(
+        'clients',
+        ClientController::class
+    );
 
-Route::resource(
-    'clients',
-    ClientController::class
-)->middleware(['auth']);
+    Route::resource(
+        'reservations',
+        ReservationController::class
+    );
+});
 
-Route::resource(
-    'reservations',
-    ReservationController::class
-)->middleware(
-    ['auth']
-);
 
 require __DIR__ . '/auth.php';

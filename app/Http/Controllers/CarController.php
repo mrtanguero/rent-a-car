@@ -18,9 +18,22 @@ class CarController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Car::with('car_class')->get();
+        $search = $request->query('search', '');
+        if ($search) {
+            $cars = Car::with('car_class')
+                ->join('car_classes', 'cars.car_class_id', '=', 'car_classes.id')
+                ->where('cars.name', 'like', "%$search%")
+                ->orWhere('cars.plate_number', 'like', "%$search%")
+                ->orWhere('cars.production_year', 'like', "%$search%")
+                ->orWhere('car_classes.name', 'like', "%$search%")
+                ->select('cars.*')
+                ->paginate(12)
+                ->withQueryString();
+        } else {
+            $cars = Car::with('car_class')->paginate(12);
+        }
         return view('cars.index', ['cars' => $cars]);
     }
 
