@@ -11,7 +11,7 @@
         {{-- Content goes here --}}
         <div class="container">
           <div class="header d-flex align-items-center">
-            <h1 class="flex-grow-1">Klijenti</h1>
+            <h1 class="flex-grow-1">Vozila</h1>
             <form action="{{ route('cars.index') }}" method="GET">
               <div class="input-group">
                 <input type="text" class="form-control" placeholder="Search" name="search"

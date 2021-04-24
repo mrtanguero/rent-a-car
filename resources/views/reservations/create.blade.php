@@ -3,7 +3,7 @@
     <div class="card shadow-sm">
       <div class="card-body">
         <form action="{{ route('cars.select') }}" method="POST" class="mx-auto w-75">
-          <h1 class="mb-3">Napravi novu rezervaciju</h1>
+          <h1 class="mb-3 text-center">Napravi novu rezervaciju</h1>
           @csrf
 
           <div class="row row-col-sm-6">
