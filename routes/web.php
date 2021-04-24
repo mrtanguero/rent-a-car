@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource(
         'reservations',
         ReservationController::class
-    );
+    )->except(['index']);
 });
 
 

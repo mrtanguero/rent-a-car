@@ -12,7 +12,7 @@ class HomeController extends Controller
         $search = $request->query('search', '');
 
         if ($search) {
-            $reservations =  Reservation::with(['car', 'client'])
+            $reservations =  Reservation::with(['car', 'client', 'extras'])
                 ->join('clients', 'reservations.client_id', '=', 'clients.id')
                 ->join('cars', 'reservations.car_id', '=', 'cars.id')
                 ->join('locations', function ($join) {
@@ -26,7 +26,7 @@ class HomeController extends Controller
                 ->orderBy('date_from')
                 ->paginate(10)->withQueryString();
         } else {
-            $reservations = Reservation::with(['car', 'client'])
+            $reservations = Reservation::with(['car', 'client', 'extras'])
                 ->orderBy('date_from')
                 ->paginate(10);
         }

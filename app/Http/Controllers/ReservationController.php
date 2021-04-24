@@ -12,17 +12,6 @@ use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //? NOT USED
-        $reservations = Reservation::with(['car', 'client'])->paginate(15);
-        return view('reservations.index', ['reservations' => $reservations]);
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -84,7 +73,7 @@ class ReservationController extends Controller
      */
     public function show(Reservation $reservation)
     {
-        //
+        return view('reservations.show', ['reservation' => $reservation]);
     }
 
     /**
@@ -95,7 +84,14 @@ class ReservationController extends Controller
      */
     public function edit(Reservation $reservation)
     {
-        //
+        $cars = Car::orderBy('name')->get();
+        $clients = Client::orderBy('name')->get();
+        $locations = Location::all();
+        $extras = Extra::all();
+        return view(
+            'reservations.edit',
+            compact(['reservation', 'cars', 'clients', 'extras', 'locations'])
+        );
     }
 
     /**
@@ -107,7 +103,37 @@ class ReservationController extends Controller
      */
     public function update(Request $request, Reservation $reservation)
     {
-        //
+        $request->validate([
+            'client_id' => 'required|numeric',
+            'car_id' => 'required|numeric',
+            'date_from' => 'required|date',
+            'date_to' => 'required|date',
+            'pickup_location_id' => 'required|numeric',
+            'return_location_id' => 'required|numeric'
+        ]);
+
+        $reservation->fill([
+            'client_id' => $request->client_id,
+            'car_id' => $request->car_id,
+            'date_from' => $request->date_from,
+            'date_to' => $request->date_to,
+            'pickup_location_id' => $request->pickup_location_id,
+            'return_location_id' => $request->return_location_id
+        ]);
+
+        $extras = [];
+        foreach (Extra::all() as $extra) {
+            $string = 'extra_' . $extra->id;
+            if ($request->has($string)) {
+                $extras[] = $extra->id;
+            }
+        }
+
+        $reservation->extras()->sync($extras);
+        $reservation->save();
+        return redirect(
+            route('reservations.show', ['reservation' => $reservation])
+        )->with('status', 'Rezervacija uspješno izmijenjena');
     }
 
     /**
@@ -119,6 +145,10 @@ class ReservationController extends Controller
     public function destroy(Reservation $reservation)
     {
         $reservation->delete();
+        if (request()->route()->uri === 'reservations/{reservation}') {
+            return redirect(route('home'))->with('status', 'Rezervacija je uspješno izbrisana!');
+        }
+        dd('Jok');
         return back()->with('status', 'Rezervacija je uspješno izbrisana!');
     }
 }

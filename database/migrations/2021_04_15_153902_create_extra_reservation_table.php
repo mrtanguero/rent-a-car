@@ -16,7 +16,9 @@ class CreateExtraReservationTable extends Migration
         Schema::create('extra_reservation', function (Blueprint $table) {
             $table->id();
             $table->foreignId('extra_id')->constrained('extras');
-            $table->foreignId('reservation_id')->constrained('reservations');
+            $table->foreignId('reservation_id')
+                ->constrained('reservations')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }
