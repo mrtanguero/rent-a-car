@@ -19,9 +19,9 @@ class DatabaseSeeder extends Seeder
             CarClassSeeder::class,
             ExtraSeeder::class,
             LocationSeeder::class,
-            CarSeeder::class,
-            ClientSeeder::class,
-            ReservationSeeder::class
+            // CarSeeder::class,
+            // ClientSeeder::class,
+            // ReservationSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
         // \App\Models\Client::factory(50)->create();
