@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             // ReservationSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
-        // \App\Models\Client::factory(50)->create();
+        \App\Models\Client::factory(200)->create();
         // \App\Models\Car::factory(15)->create();
         // \App\Models\Reservation::factory(50)->create();
     }
